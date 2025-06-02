@@ -1,26 +1,57 @@
+#  _________________
+#  Import LIBRARIES
 import flet as ft
+from flet import Page, app, TextField, Dropdown, Checkbox, Text, ElevatedButton
+#  Import FILES
+#  _________________
 
 
-def main(page: ft.Page):
-    counter = ft.Text("0", size=50, data=0)
+def main(page: Page) -> None:  # función principal de la ventana
+    page.title = "Terzero ejercicio -  Ejemplo de Controles Básicos"
 
-    def increment_click(e):
-        counter.data += 1
-        counter.value = str(counter.data)
-        counter.update()
-
-    page.floating_action_button = ft.FloatingActionButton(
-        icon=ft.Icons.ADD, on_click=increment_click
+    # Controles
+    nombre: TextField = TextField(label="Nombre", width=500)
+    edad: TextField = TextField(
+        label="Edad", width=200, keyboard_type=ft.KeyboardType.NUMBER
     )
+    genero: Dropdown = Dropdown(
+        value="menu desplegable",
+        label="Género",
+        options=[
+            ft.dropdown.Option(key="Masculino"),
+            ft.dropdown.Option(key="Femenino"),
+            ft.dropdown.Option(key="Otro"),
+        ],
+    )
+
+    acepto: Checkbox = Checkbox(label="Acepto Los términos")
+    salida: Text = Text(value="")
+
+    def enviar_click(e: ft.ControlEvent):
+        if acepto.value:
+            salida.value = (
+                f"Hola, {nombre.value}, tienes {edad.value} años y eres {genero.value}."
+            )
+        else:
+            salida.value = "Debes aceptar los términos."
+        page.update()
+
+    # Diseño UI
     page.add(
-        ft.SafeArea(
-            ft.Container(
-                counter,
-                alignment=ft.alignment.center,
-            ),
-            expand=True,
-        )
+        nombre,
+        edad,
+        genero,
+        acepto,
+        ElevatedButton(text="Enviar", on_click=enviar_click),
+        salida,
     )
 
 
-ft.app(main)
+if __name__ == "__main__":
+    app(target=main)
+
+
+#  _________________
+#  Import LIBRARIES
+#  Import FILES
+#  _________________
