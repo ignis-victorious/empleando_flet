@@ -1,26 +1,42 @@
+#  _________________
+#  Import LIBRARIES
 import flet as ft
+from flet import Page, app, RadioGroup, Column, Radio, Text, ElevatedButton
+#  Import FILES
+#  _________________
 
 
-def main(page: ft.Page):
-    counter = ft.Text("0", size=50, data=0)
+def main(page: Page) -> None:  # función principal de la ventana
+    page.title = "Quinto ejercicio - Grupo de RadioButtons"
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
-    def increment_click(e):
-        counter.data += 1
-        counter.value = str(counter.data)
-        counter.update()
-
-    page.floating_action_button = ft.FloatingActionButton(
-        icon=ft.Icons.ADD, on_click=increment_click
-    )
-    page.add(
-        ft.SafeArea(
-            ft.Container(
-                counter,
-                alignment=ft.alignment.center,
-            ),
-            expand=True,
+    grupo: RadioGroup = RadioGroup(
+        content=Column(
+            controls=[
+                Radio(value="opcion1", label="Opción 1"),
+                Radio(value="opcion2", label="Opción 2"),
+                Radio(value="opcion3", label="Opción 3"),
+            ]
         )
     )
 
+    resultado: Text = Text(value="")
 
-ft.app(main)
+    def mostrar_opcion(e: ft.ControlEvent):
+        resultado.value = f"Seleccionaste: {grupo.value}"
+        page.update()
+
+    page.add(
+        grupo, ElevatedButton(text="Mostrar opción", on_click=mostrar_opcion), resultado
+    )
+
+
+if __name__ == "__main__":
+    app(target=main)
+
+
+#  _________________
+#  Import LIBRARIES
+#  Import FILES
+#  _________________
